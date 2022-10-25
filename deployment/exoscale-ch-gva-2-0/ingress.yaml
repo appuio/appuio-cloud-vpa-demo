@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+  name: vpa-example
+spec:
+  rules:
+  - host: vpa-example-test.apps.exoscale-ch-gva-2-0.appuio.cloud
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: vpa-example
+            port:
+              number: 8080
+  tls:
+  - hosts:
+    - vpa-example-test.apps.exoscale-ch-gva-2-0.appuio.cloud
+    secretName: vpa-example-cert

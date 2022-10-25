@@ -1,0 +1,42 @@
+= Vertical Pod Autoscaler Demo
+
+This project contains the manifests required to test the Vertical Pod Autoscaler recommendation feature on APPUiO Cloud.
+
+== Steps
+
+At the end of the procedure, run the `oc get vpa vpa-recommender --output yaml` command and you should see output similar to this:
+
+[source,yaml]
+--
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  annotations: …
+# …
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: vpa-example
+  updatePolicy:
+    updateMode: Auto
+status:
+  conditions:
+  - status: "True"
+    type: RecommendationProvided
+  recommendation:
+    containerRecommendations:
+    - containerName: fortune-container
+      lowerBound:
+        cpu: 25m
+        memory: 262144k
+      target:
+        cpu: 203m
+        memory: 262144k
+      uncappedTarget:
+        cpu: 203m
+        memory: 262144k
+      upperBound:
+        cpu: 71383m
+        memory: "6813174422"
+--

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vpa-example
+  labels:
+    app: vpa-example
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+      - image: registry.gitlab.com/vshn/applications/fortune-python-heavy:latest
+        imagePullPolicy: Always
+        name: fortune-container
+        ports:
+        - containerPort: 8080
+    metadata:
+      labels:
+        app: vpa-example
+  selector:
+    matchLabels:
+      app: vpa-example
+  strategy:
+    type: Recreate
